@@ -1,6 +1,7 @@
 package algorithm.trackpackrecur;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Solution {
@@ -48,18 +49,62 @@ public class Solution {
     }
 
 
-    private void combinationSumHelper(int[] candidates, int target, int curSum, List<Integer>path, List<List<Integer>>res){
+    private void combinationSumHelper(int[] candidates,int target, int start, int curSum, List<Integer>path, List<List<Integer>>res){
+        if (curSum == target){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = start; i < candidates.length && curSum + candidates[i] <= target; i++) {
+            path.add(candidates[i]);
+            combinationSumHelper(candidates, target, i,curSum + candidates[i], path, res);
+            path.remove(path.size()-1);
+        }
 
     }
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
-        combinationSumHelper(candidates, target, 0, new ArrayList<>(), res);
+        if (null != candidates && candidates.length > 0) {
+            Arrays.sort(candidates);
+            combinationSumHelper(candidates, target, 0, 0, new ArrayList<>(), res);
+        }
+        return res;
+    }
+
+
+    private void combinationSum2Helper(int []candidates, int target, int start, int curSum,List<Integer>path, List<List<Integer>>res){
+        if (curSum == target){
+            res.add(new ArrayList<>(path));
+            return;
+        }
+        for (int i = start; i < candidates.length && curSum + candidates[i]<= target; i++) {
+            if (i!=start && candidates[i] == candidates[i-1]){
+                continue;
+            }
+            path.add(candidates[i]);
+            combinationSum2Helper(candidates, target, i+1, curSum + candidates[i], path, res);
+            path.remove(path.size()-1);
+        }
+
+    }
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>>res = new ArrayList<>();
+        if (null != candidates && candidates.length > 0){
+            int sum = 0;
+            for (int i = 0; i < candidates.length; i++) {
+                sum += candidates[i];
+            }
+            if (sum >= target){
+                Arrays.sort(candidates);
+                combinationSum2Helper(candidates, target, 0, 0,new ArrayList<>(), res);
+            }
+        }
         return res;
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        List<List<Integer>>lists = s.combine(4,2);
+        int []nums = {10,1,2,7,6,1,5};
+        List<List<Integer>>lists = s.combinationSum2(nums, 8);
         for (List<Integer>list : lists){
             for (int i : list){
                 System.out.print( i + " ");
