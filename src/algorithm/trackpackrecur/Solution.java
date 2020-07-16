@@ -196,11 +196,61 @@ public class Solution {
         return res;
     }
 
+    private boolean existHelper(char [][]board, boolean [][]visited, String target, int index, int r, int c){
+        if (index == target.length() - 1){
+            return target.charAt(index) == board[r][c];
+        }
+        if (target.charAt(index) == board[r][c]) {
+            visited[r][c] = true;
+            //上
+            if (r - 1 >= 0 && !visited[r - 1][c]) {
+                boolean flag = existHelper(board, visited, target, index + 1, r - 1, c);
+                if (flag){
+                    return true;
+                }
+            }
+            // 下
+            if (r + 1 < board.length && !visited[r + 1][c]) {
+                boolean flag = existHelper(board, visited, target, index + 1, r + 1, c);
+                if (flag){
+                    return true;
+                }
+            }
+            // 左
+            if (c - 1 >= 0 && !visited[r][c - 1]) {
+                boolean flag = existHelper(board, visited, target, index + 1, r, c - 1);
+                if (flag){
+                    return true;
+                }
+            }
+            // 右
+            if (c + 1 < board[0].length && !visited[r][c + 1]) {
+                boolean flag = existHelper(board, visited, target, index + 1, r, c + 1);
+                if (flag){
+                    return true;
+                }
+            }
+            visited[r][c] = false;
+        }
+        return false;
+    }
+    public boolean exist(char[][] board, String word) {
+        boolean []res = new boolean[1];
+        for (int i = 0; i < board.length; i++) {
+            boolean[][]visited = new boolean[board.length][board[0].length];
+            for (int j = 0; j < board[i].length; j++) {
+               if (existHelper(board, visited, word,0, i, j)){
+                   return true;
+               }
+            }
+        }
+        return res[0];
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        List<String>list = s.readBinaryWatch(1);
-        for (String l : list){
-            System.out.println(l);
-        }
+        char [][]board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+
+        System.out.println(s.exist(board, "ABCCED"));
     }
 }
