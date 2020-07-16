@@ -3,6 +3,7 @@ package algorithm.trackpackrecur;
 import com.sun.org.apache.bcel.internal.generic.LUSHR;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
+import java.nio.channels.Pipe;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -247,10 +248,81 @@ public class Solution {
         return res[0];
     }
 
+
+    public class Point{
+        int x;
+        int y;
+
+        public Point(int _x, int _y){
+            x = _x;
+            y = _y;
+        }
+    }
+
+    private void solveHelper(char [][]board, List<Point>path, boolean [][]visited, int startx, int starty, boolean []flags){
+        if (flags[0]){
+            return;
+        }
+
+        if (startx == 0 || startx == board.length-1 || starty == 0 || starty == board[0].length - 1){
+            flags[0] = true;
+        }
+
+        visited[startx][starty] = true;
+        path.add(new Point(startx, starty));
+        // 上
+        if (startx - 1 >= 0 && !visited[startx-1][starty] && board[startx -1][starty] == 'O'){
+            solveHelper(board, path, visited, startx -1, starty, flags);
+        }
+        // 下
+        if (startx + 1 < board.length && !visited[startx+1][starty] && board[startx +1][starty] == 'O'){
+            solveHelper(board, path, visited, startx + 1, starty, flags);
+        }
+        //左
+        if (starty - 1 >= 0 && !visited[startx][starty-1] && board[startx][starty-1] == 'O'){
+            solveHelper(board, path, visited, startx, starty-1, flags);
+        }
+        //右
+        if (starty + 1 < board[0].length && !visited[startx][starty+1] && board[startx][starty+1] == 'O'){
+            solveHelper(board, path, visited, startx, starty+1, flags);
+        }
+
+    }
+
+    public void solve(char[][] board) {
+        if (null == board || board.length == 0)
+            return;
+        boolean [][]visited = new boolean[board.length][board[0].length];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] == 'O' && !visited[i][j]){
+                    List<Point> path = new ArrayList<>();
+                    boolean []flags = new boolean[1];
+                    solveHelper(board, path, visited, i, j, flags);
+                    if (!flags[0]){
+                        for (Point p : path){
+                            board[p.x][p.y] = 'X';
+                            visited[p.x][p.y] = true;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        char [][]board = {{'A','B','C','E'},{'S','F','C','S'},{'A','D','E','E'}};
+        char [][]board = {{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
+        board = new char[][]{{'O'}};
+        s.solve(board);
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                System.out.print( board[i][j] + " ");
+            }
+            System.out.println();
+        }
 
-        System.out.println(s.exist(board, "ABCCED"));
     }
 }
