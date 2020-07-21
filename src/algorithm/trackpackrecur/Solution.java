@@ -258,7 +258,6 @@ public class Solution {
             y = _y;
         }
     }
-
     private void solveHelper(char [][]board, List<Point>path, boolean [][]visited, int startx, int starty, boolean []flags){
         if (flags[0]){
             return;
@@ -288,7 +287,6 @@ public class Solution {
         }
 
     }
-
     public void solve(char[][] board) {
         if (null == board || board.length == 0)
             return;
@@ -312,17 +310,137 @@ public class Solution {
     }
 
 
-    public static void main(String[] args) {
-        Solution s = new Solution();
-        char [][]board = {{'X','X','X','X'},{'X','O','O','X'},{'X','X','O','X'},{'X','O','X','X'}};
-        board = new char[][]{{'O'}};
-        s.solve(board);
+
+    private List<String> generateSolution(List<Integer> row, int n){
+        assert row.size() == n;
+        List<String> ret = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            char []arr = new char[n];
+            for (int j = 0; j < n; j++) {
+                arr[j] = '.';
+            }
+            arr[row.get(i)] = 'Q';
+            String t = new String(arr);
+            ret.add(t);
+        }
+        return ret;
+    }
+    private void putQueen(int n, int index, List<Integer>row, boolean[]col, boolean []dia1, boolean []dia2, List<List<String>> res){
+        if (index == n){
+            List<Integer> solution = new ArrayList<>(row);
+            res.add(generateSolution(solution, n));
+            return;
+        }
+        // 在每列上尝试摆放 Queuen
+        for (int i = 0; i < n; i++) {
+            if (!col[i] && !dia1[index + i] && !dia2[index - i + n - 1]){
+                col[i] = true;
+                dia1[index + i] = true;
+                dia2[index - i + n - 1] = true;
+                row.add(i);
+                putQueen(n, index+1, row, col, dia1, dia2, res);
+                row.remove(row.size()-1);
+                col[i] = false;
+                dia1[index + i] = false;
+                dia2[index - i + n - 1] = false;
+            }
+        }
+    }
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<>();
+        boolean [] col = new boolean[n];
+        boolean [] dia1 = new boolean[2 * n - 1];
+        boolean [] dia2 = new boolean[2 * n - 1];
+        List<Integer>row = new ArrayList<>();
+        putQueen(n, 0, row, col, dia1, dia2, res);
+        return res;
+    }
+
+
+
+    private Point findEmptyPoint(char [][]board){
+        Point p = null;
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board[i].length; j++) {
-                System.out.print( board[i][j] + " ");
+                if (board[i][j] == '.'){
+                    p = new Point(i, j);
+                    return p;
+                }
+            }
+        }
+        return p;
+    }
+    private boolean isValid(char [][]board, int x, int y, char c){
+        // check column
+        for (int i = 0; i < board.length; i++) {
+            if (board[i][y] == c && i != x)
+                return false;
+        }
+        // check row
+        for (int i = 0; i < board[0].length; i++) {
+            if (board[x][i] == c && i != y)
+                return false;
+        }
+        // check box
+        int boxx = x / 3;
+        int boxy = y / 3;
+        for (int i = boxx * 3; i < boxx * 3 + 3; i++) {
+            for (int j = boxy * 3 ; j < boxy * 3 + 3; j++) {
+                if (board[i][j] == c && !(i == x && j ==y)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean solveSudokuHelper(char[][] board){
+        Point p = findEmptyPoint(board);
+        if (null != p){
+            for (char i = '1'; i <= '9'; i = (char) (i + ('1' - '0'))) {
+                if (isValid(board, p.x, p.y, i)){
+                    board[p.x][p.y] = i;
+                    if (solveSudokuHelper(board)){
+                        return true;
+                    }
+                    board[p.x][p.y] = '.';
+                }
+            }
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public void solveSudoku(char[][] board) {
+        solveSudokuHelper(board);
+    }
+
+    public void printBoard (char [][]board){
+        System.out.println("****************************************");
+        for (char []a : board){
+            for (char c : a){
+                System.out.print(c + " ");
             }
             System.out.println();
         }
+        System.out.println("****************************************");
+    }
 
+    public static void main(String[] args) {
+        Solution s = new Solution();
+        char [][]board = {
+            {'5','3','.','.','7','.', '.','.','.'},
+            {'6','.','.','1','9','5', '.','.','.'},
+            {'.','9','8','.','.','.', '.','6','.'},
+            {'8','.','.','.','6','.', '.','.','3'},
+            {'4','.','.','8','.','3', '.','.','1'},
+            {'7','.','.','.','2','.', '.','.','6'},
+            {'.','6','.','.','.','.', '2','8','.'},
+            {'.','.','.','4','1','9', '.','.','5'},
+            {'.','.','.','.','8','.', '.','7','9'}
+        };
+        s.solveSudoku(board);
+        s.printBoard(board);
     }
 }
