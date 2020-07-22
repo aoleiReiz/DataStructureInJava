@@ -43,17 +43,83 @@ public class BST<E extends Comparable<E>> {
     }
 
 
-    public TreeNode minimun(TreeNode root){
+    public TreeNode minimum(TreeNode root){
         if (null == root){
             return null;
         }
         if (root.left == null){
             return root;
         }else{
-            return minimun(root.left);
+            return minimum(root.left);
         }
 
     }
 
+    public TreeNode maximum(TreeNode root){
+        if (null == root){
+            return null;
+        }
+        if (root.right == null){
+            return root;
+        }else{
+            return maximum(root.right);
+        }
+    }
+
+    private TreeNode removeMinHelper(TreeNode node){
+        if (node.left == null){
+            TreeNode rightNode = node.right;
+            node.right = null;
+            return rightNode;
+        }
+        node.left = removeMinHelper(node.left);
+        return node;
+    }
+    public TreeNode removeMin(TreeNode root){
+        return removeMinHelper(root);
+    }
+
+    private TreeNode removeMaxHelper(TreeNode node){
+       if (node.right == null){
+           TreeNode leftNode = node.left;
+           node.left = null;
+           return leftNode;
+       }
+       node.right = removeMax(node.right);
+       return node;
+    }
+    public TreeNode removeMax(TreeNode root){
+        return removeMinHelper(root);
+    }
+
+
+    public TreeNode remove(TreeNode root,E e){
+        if (root == null){
+            return null;
+        }
+        if (e.compareTo(root.val) < 0){
+           root.left = remove(root.left, e);
+           return root;
+        }else if (e.compareTo(root.val) > 0){
+            root.right = remove(root.right, e);
+            return root;
+        }else{
+            if (root.left == null){
+                TreeNode rightNode = root.right;
+                root.right = null;
+                return rightNode;
+            }
+            if (root.right == null){
+                TreeNode left = root.left;
+                root.left = null;
+                return left;
+            }
+            TreeNode successor = minimum(root.right);
+            successor.right = removeMin(root.right);
+            successor.left = root.left;
+            root.left = root.right = null;
+            return successor;
+        }
+    }
 
 }
