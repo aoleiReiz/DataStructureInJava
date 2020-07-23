@@ -23,6 +23,9 @@ public class Sort {
     }
 
     public void selectionSort(Comparable []a){
+        if (null == a || a.length <= 1){
+            return;
+        }
         int N = a.length;
         for (int i = 0; i < N - 1; i++) {
             int min = i;
@@ -32,6 +35,18 @@ public class Sort {
                 }
             }
             exch(a, i, min);
+        }
+    }
+
+    public void insertionSort(Comparable []a){
+        if (null == a || a.length <= 1){
+            return;
+        }
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
+            for (int j = i; j > 0 && comp(a[j],a[j-1]) < 0; j--){
+                exch(a, j , j -1);
+            }
         }
     }
 }

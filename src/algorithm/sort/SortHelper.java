@@ -15,6 +15,21 @@ public class SortHelper {
         return ret;
     }
 
+    public Integer [] generateNearlySortedNumbers(int N, int swapTimes){
+        Random random = new Random();
+        Integer t = random.nextInt();
+        Integer []ret = new Integer[N];
+        for (int i = 0; i < N; i++) {
+            ret[i] = i;
+        }
+        for (int i = 0; i < swapTimes; i++) {
+            int index = random.nextInt(N);
+            ret[index] = random.nextInt(50000);
+        }
+
+        return ret;
+    }
+
     public void testSort(String sortName, Comparable []a) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
         long start = System.nanoTime();
         Sort sort = new Sort();
@@ -27,7 +42,7 @@ public class SortHelper {
         }else{
             System.out.println("排序失败");
         }
-        System.out.println("sort using " + (end - start)/ 1000000000.);
+        System.out.println(sortName +" sort using " + (end - start)/ 1000000000.);
     }
 
 }
