@@ -50,6 +50,21 @@ public class Sort {
         }
     }
 
+    public void insertionSortImprove(Comparable []a){
+        if (null == a || a.length <= 1){
+            return;
+        }
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
+            Comparable e = a[i];
+            int j;
+            for (j = i; j > 0 && comp(e, a[j-1]) < 0; j--){
+                a[j] = a[j-1];
+            }
+            a[j] = e;
+        }
+    }
+
     public void mergeSort(Comparable []a){
         if (null == a || a.length <= 1){
             return;
@@ -91,6 +106,20 @@ public class Sort {
         while (right <= r){
             a[k++] = aux[right - l];
             right ++;
+        }
+    }
+
+    public void bubbleSort(Comparable []a){
+        if (null == a || a.length <= 1){
+            return;
+        }
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
+            for (int j = N - 2; j >= 0 ; j--) {
+                if (comp(a[j+1], a[j]) < 0){
+                    exch(a,j+1, j);
+                }
+            }
         }
     }
 
