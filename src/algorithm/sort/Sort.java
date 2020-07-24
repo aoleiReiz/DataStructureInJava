@@ -49,4 +49,49 @@ public class Sort {
             }
         }
     }
+
+    public void mergeSort(Comparable []a){
+        if (null == a || a.length <= 1){
+            return;
+        }
+
+        _mergeSort(a, 0, a.length - 1);
+    }
+
+    private void _mergeSort(Comparable []a, int l, int r){
+        if (l >= r){
+            return;
+        }
+        int mid = l + (r - l)/2;
+        _mergeSort(a,l, mid);
+        _mergeSort(a, mid + 1, r);
+        _merge(a, l, mid, r);
+    }
+    private void _merge(Comparable []a, int l, int mid, int r){
+        Comparable []aux = new Comparable[r - l + 1];
+        for (int i = l; i <= r ; i++) {
+            aux[i - l] = a[i];
+        }
+        int left = l;
+        int right = mid+1;
+        int k = l;
+        while (left <= mid && right <= r){
+            if (comp(aux[left-l],aux[right-l]) <= 0){
+                a[k++] = aux[left - l];
+                left ++;
+            }else{
+                a[k++] = aux[right - l];
+                right ++;
+            }
+        }
+        while (left <= mid){
+            a[k++] = aux[left - l];
+            left ++;
+        }
+        while (right <= r){
+            a[k++] = aux[right - l];
+            right ++;
+        }
+    }
+
 }
