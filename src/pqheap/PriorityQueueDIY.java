@@ -1,10 +1,10 @@
 package pqheap;
 
-public class PriorityQueue<E extends Comparable<E>> implements Queue<E> {
+public class PriorityQueueDIY<E extends Comparable<E>> implements Queue<E> {
 
     private MaxHeap<E> maxHeap;
 
-    public PriorityQueue(){
+    public PriorityQueueDIY(){
         maxHeap = new MaxHeap<>();
     }
 

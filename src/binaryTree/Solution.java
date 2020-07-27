@@ -60,4 +60,26 @@ public class Solution {
         Solution s = new Solution();
         System.out.println(s.hasPathSum(node1, 22));
     }
+
+    public int maxDepth(TreeNode root) {
+        if (null == root)
+            return 0;
+        Queue<TreeNode>queue = new ArrayDeque<>();
+        queue.add(root);
+        int count = 0;
+        while (!queue.isEmpty()){
+            count ++;
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.remove();
+                if (node.left !=null){
+                    queue.add(node.left);
+                }
+                if (node.right != null){
+                    queue.add(node.right);
+                }
+            }
+        }
+        return count;
+    }
 }
