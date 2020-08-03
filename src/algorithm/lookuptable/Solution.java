@@ -99,4 +99,54 @@ public class Solution {
         return ret;
     }
 
+
+    private int fourSumCountHelper(Map<Integer, List<Integer>> mapC, Map<Integer, List<Integer>> mapD, int target){
+        int count = 0;
+        for (int kc : mapC.keySet()){
+            int kd = target - kc;
+            if (mapD.containsKey(kd)){
+                List<Integer>lc =  mapC.get(kc);
+                List<Integer>ld =  mapD.get(kd);
+                count += lc.size() * ld.size();
+            }
+        }
+        return count;
+    }
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+        int count = 0;
+
+        Map<Integer, List<Integer>>mapD = new HashMap<>();
+        for (int i = 0; i < D.length; i++) {
+            if (mapD.containsKey(D[i])){
+                List<Integer> list = mapD.get(D[i]);
+                list.add(i);
+                mapD.put(D[i],list);
+            }else{
+                List<Integer> list = new ArrayList<>();
+                list.add(i);
+                mapD.put(D[i],list);
+            }
+        }
+        Map<Integer, List<Integer>>mapC = new HashMap<>();
+        for (int i = 0; i < C.length; i++) {
+            if (mapC.containsKey(C[i])){
+                List<Integer> list = mapC.get(C[i]);
+                list.add(i);
+                mapC.put(C[i],list);
+            }else{
+                List<Integer> list = new ArrayList<>();
+                list.add(i);
+                mapC.put(C[i],list);
+            }
+        }
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B.length; j++) {
+                int target = -(A[i] + B[j]);
+                count += fourSumCountHelper(mapC, mapD, target);
+            }
+        }
+        return count;
+    }
+
 }

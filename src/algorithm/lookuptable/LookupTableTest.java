@@ -5,14 +5,12 @@ import java.util.List;
 public class LookupTableTest {
 
     public static void main(String[] args) {
-        int []nums = {1, 0, -1, 0, -2, 2};
+        int []A = { 0, 1, -1};
+        int []B = {-1, 1, 0};
+        int []C = {0, 0, 1};
+        int []D = {-1, 1, 1};
         Solution s = new Solution();
-        List<List<Integer>>lists = s.fourSum(nums,0);
-        for (List<Integer> list : lists){
-            for (int i : list){
-                System.out.print(i + " ");
-            }
-            System.out.println();
-        }
+        int count = s.fourSumCount(A, B, C, D);
+        System.out.println(count);
     }
 }

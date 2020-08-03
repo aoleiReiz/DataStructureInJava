@@ -108,4 +108,37 @@ public class Solution {
         }
         return nums[0];
     }
+    public int[] twoSum(int[] numbers, int target) {
+        // write your code here
+        int []ret = new int[2];
+        Map<Integer,Integer> map = new HashMap<>();
+        for (int i = 0; i<numbers.length ; i++ ){
+            int temp = target - numbers[i];
+            if (map.containsKey(temp)){
+                ret[0] = map.get(temp);
+                ret[1] = i;
+            } else{
+                map.put(numbers[i],i);
+            }
+        }
+        return ret;
+    }
+
+    public void rotateString(char[] str, int offset) {
+        // write your code here
+        offset = offset % str.length;
+        char []temp = new char[offset];
+        int n = str.length;
+        for(int i = 1; i <=offset; i++){
+            temp[i-1] = str[n-i];
+        }
+        for(int i = n - offset - 1; i >=0; i --){
+            str[i+offset] = str[i];
+        }
+        for(int i = 0; i < offset; i++){
+            str[i] = temp[offset - i -1];
+        }
+    }
+
+
 }
