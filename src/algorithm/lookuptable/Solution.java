@@ -100,53 +100,55 @@ public class Solution {
     }
 
 
-    private int fourSumCountHelper(Map<Integer, List<Integer>> mapC, Map<Integer, List<Integer>> mapD, int target){
-        int count = 0;
-        for (int kc : mapC.keySet()){
-            int kd = target - kc;
-            if (mapD.containsKey(kd)){
-                List<Integer>lc =  mapC.get(kc);
-                List<Integer>ld =  mapD.get(kd);
-                count += lc.size() * ld.size();
-            }
-        }
-        return count;
-    }
     public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
         int count = 0;
-
-        Map<Integer, List<Integer>>mapD = new HashMap<>();
-        for (int i = 0; i < D.length; i++) {
-            if (mapD.containsKey(D[i])){
-                List<Integer> list = mapD.get(D[i]);
-                list.add(i);
-                mapD.put(D[i],list);
-            }else{
-                List<Integer> list = new ArrayList<>();
-                list.add(i);
-                mapD.put(D[i],list);
-            }
-        }
-        Map<Integer, List<Integer>>mapC = new HashMap<>();
-        for (int i = 0; i < C.length; i++) {
-            if (mapC.containsKey(C[i])){
-                List<Integer> list = mapC.get(C[i]);
-                list.add(i);
-                mapC.put(C[i],list);
-            }else{
-                List<Integer> list = new ArrayList<>();
-                list.add(i);
-                mapC.put(C[i],list);
+        Map<Integer, Integer>mapAB = new HashMap<>();
+        for (int a : A) {
+            for (int b : B){
+                int s = a + b;
+                if (mapAB.containsKey(s)){
+                    mapAB.put(s, mapAB.get(s) + 1);
+                }else{
+                    mapAB.put(s, 1);
+                }
             }
         }
 
-        for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < B.length; j++) {
-                int target = -(A[i] + B[j]);
-                count += fourSumCountHelper(mapC, mapD, target);
+        for (int c : C){
+            for (int d : D){
+                int k = c + d;
+                if (mapAB.containsKey(k)){
+                    count += mapAB.get(k);
+                }
             }
         }
+
         return count;
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        List<List<String>> res = new ArrayList<>();
+        if (strs == null || strs.length == 0){
+            return res;
+        }
+        Map<String,List<String>>map = new HashMap<>();
+        for (String str : strs){
+            char []strArr = str.toCharArray();
+            Arrays.sort(strArr);
+            String key = new String(strArr);
+            if (map.containsKey(key)){
+                List<String>list = map.get(key);
+                list.add(str);
+                map.put(key, list);
+            }else{
+                List<String>list = new ArrayList<>();
+                list.add(str);
+                map.put(key, list);
+            }
+        }
+        for (List<String> list : map.values())
+            res.add(list);
+        return res;
     }
 
 }
