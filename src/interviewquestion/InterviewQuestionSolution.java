@@ -125,8 +125,12 @@ public class InterviewQuestionSolution {
             p = p.next;
         }
         p = head;
-        while ()
-
-
+        while (p != null){
+            Node node = map.get(p);
+            node.next = map.get(p.next);
+            node.random = map.get(p.random);
+            p = p.next;
+        }
+        return map.get(head);
     }
 }
