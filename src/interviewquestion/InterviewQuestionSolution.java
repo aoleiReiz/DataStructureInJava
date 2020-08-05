@@ -1,9 +1,6 @@
 package interviewquestion;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class InterviewQuestionSolution {
 
@@ -63,7 +60,6 @@ public class InterviewQuestionSolution {
         return ret;
     }
 
-
     public boolean isPalindrome(String s) {
         if (null == s || s.length() <= 1){
             return true;
@@ -114,5 +110,23 @@ public class InterviewQuestionSolution {
             }
         }
         return ret;
+    }
+
+    public Node copyRandomList(Node head) {
+        if (null == head){
+            return null;
+        }
+        Map<Node,Node>map = new HashMap<>();
+        Node p = head;
+        while (p != null){
+            if (!map.containsKey(p)){
+                map.put(p, new Node(p.val));
+            }
+            p = p.next;
+        }
+        p = head;
+        while ()
+
+
     }
 }
