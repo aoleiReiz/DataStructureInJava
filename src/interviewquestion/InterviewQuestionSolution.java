@@ -134,7 +134,37 @@ public class InterviewQuestionSolution {
         return map.get(head);
     }
 
+    private boolean isValidPosition(int r, int c, int i, int j){
+        return i >= 0 && i < r && j < c && j >= 0;
+    }
+    private void numIslandsHelper(char [][]grid, boolean [][]visited, int i, int j){
+        int [][] directions = {{1,0},{-1,0},{0,1},{0,-1}};
+        visited[i][j] = true;
+        for (int k = 0; k < directions.length; k++) {
+            int x = i + directions[k][0];
+            int y = j + directions[k][1];
+            if (isValidPosition(grid.length,grid[0].length,x,y) && !visited[x][y] && grid[x][y] == '1'){
+                numIslandsHelper(grid, visited, x, y);
+            }
+        }
+    }
     public int numIslands(char[][] grid) {
+        if (null == grid || grid.length == 0)
+            return 0;
+        int count = 0;
+        boolean [][] visited = new boolean[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == '1' && !visited[i][j]){
+                    count++;
+                    numIslandsHelper(grid, visited, i, j);
+                }
+            }
+        }
+        return count;
+    }
 
+    public int trap(int[] height) {
+        return 0;
     }
 }
