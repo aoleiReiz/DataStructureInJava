@@ -133,4 +133,8 @@ public class InterviewQuestionSolution {
         }
         return map.get(head);
     }
+
+    public int numIslands(char[][] grid) {
+
+    }
 }
