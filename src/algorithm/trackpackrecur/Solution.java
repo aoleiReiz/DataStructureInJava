@@ -427,20 +427,63 @@ public class Solution {
         System.out.println("****************************************");
     }
 
+
+    private boolean isValidIPNumber(String number)
+    {
+        if (number.startsWith("0")){
+            return number.length() == 1;
+        }
+        return Integer.parseInt(number) <= 255;
+    }
+    private void restoreIpAddressesHelper(String s, String cur, int index, List<String> path,List<String>res){
+        if (index >= s.length() && path.size() == 4){
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < path.size(); i++) {
+                sb.append(path.get(i));
+                if (i != path.size() - 1){
+                   sb.append(".");
+                }
+            }
+            res.add(sb.toString());
+            return;
+        }
+
+        if (index + 1 <= s.length() && isValidIPNumber(s.substring(index, index + 1))){
+            path.add(s.substring(index, index + 1));
+            restoreIpAddressesHelper(s,cur,  index + 1, path, res);
+            path.remove(path.size() - 1);
+        }
+        if (index + 3 <= s.length() &&isValidIPNumber(s.substring(index, index + 3))){
+            path.add(s.substring(index, index + 3));
+            restoreIpAddressesHelper(s,cur,  index + 3, path, res);
+            path.remove(path.size() - 1);
+        }
+
+        if (index + 2 <= s.length() && isValidIPNumber(s.substring(index, index + 2))){
+            path.add(s.substring(index, index + 2));
+            restoreIpAddressesHelper(s,cur,  index + 2, path, res);
+            path.remove(path.size() - 1);
+        }
+        if (index + 3 <= s.length() &&isValidIPNumber(s.substring(index, index + 3))){
+            path.add(s.substring(index, index + 3));
+            restoreIpAddressesHelper(s,cur,  index + 3, path, res);
+            path.remove(path.size() - 1);
+        }
+
+    }
+    public List<String> restoreIpAddresses(String s) {
+        List<String>list = new ArrayList<>();
+        if (s.length() <= 12)
+            restoreIpAddressesHelper(s, "", 0, new ArrayList<>() ,list);
+        return list;
+    }
+
     public static void main(String[] args) {
         Solution s = new Solution();
-        char [][]board = {
-            {'5','3','.','.','7','.', '.','.','.'},
-            {'6','.','.','1','9','5', '.','.','.'},
-            {'.','9','8','.','.','.', '.','6','.'},
-            {'8','.','.','.','6','.', '.','.','3'},
-            {'4','.','.','8','.','3', '.','.','1'},
-            {'7','.','.','.','2','.', '.','.','6'},
-            {'.','6','.','.','.','.', '2','8','.'},
-            {'.','.','.','4','1','9', '.','.','5'},
-            {'.','.','.','.','8','.', '.','7','9'}
-        };
-        s.solveSudoku(board);
-        s.printBoard(board);
+        String s1 = "25525511135";
+        List<String>list = s.restoreIpAddresses(s1);
+        for (String s2 : list){
+            System.out.println(s2);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package stackqueue;
 
+import linkedlist.ListNode;
+
 import java.util.*;
 
 public class StackQueueSolution {
@@ -160,5 +162,20 @@ public class StackQueueSolution {
             }
         }
         return true;
+    }
+
+    public int[] reversePrint(ListNode head) {
+        Stack<Integer>stack = new Stack<>();
+        ListNode cur = head;
+        while (null != cur){
+            stack.push(cur.val);
+            cur = cur.next;
+        }
+        int []ret = new int[stack.size()];
+        int i = 0;
+        while (!stack.isEmpty()){
+            ret[i++] = stack.pop();
+        }
+        return ret;
     }
 }

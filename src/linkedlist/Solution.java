@@ -98,4 +98,92 @@ public class Solution {
         return map.get(head);
     }
 
+    public ListNode deleteNode(ListNode head, int val) {
+        if (head == null){
+            return null;
+        }
+        if (head.val == val){
+            return head.next;
+        }else{
+            ListNode p = head;
+            while (p.next != null && p.next.val != val){
+                p = p.next;
+            }
+            if (p.next != null){
+                ListNode d = p.next;
+                p.next = d.next;
+            }
+            return head;
+        }
+    }
+
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        if (null == head) {
+            return null;
+        }
+        ListNode pre = head;
+        ListNode post = head;
+        for (int i = 0; i < k && pre != null; i++) {
+            pre = pre.next;
+        }
+        while (pre != null) {
+            pre = pre.next;
+            post = post.next;
+        }
+        return post;
+    }
+
+
+    private ListNode reverseListHelper(ListNode prev, ListNode cur) {
+        if (null == cur){
+            return prev;
+        }
+        ListNode next = cur.next;
+        cur.next = prev;
+        return reverseListHelper(cur, next);
+    }
+    public ListNode reverseList(ListNode head) {
+        if (null == head){
+            return null;
+        }
+        return reverseListHelper(null, head);
+    }
+
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(-1);
+        ListNode p = dummyHead;
+        while (l1 != null && l2 != null){
+            if (l1.val <= l2.val){
+                p.next = l1;
+                p = l1;
+                l1 = l1.next;
+            }else{
+                p.next = l2;
+                p = l2;
+                l2 = l2.next;
+            }
+        }
+        while (l1 != null){
+            p.next = l1;
+            p = l1;
+            l1 = l1.next;
+        }
+        while (l2 != null){
+            p.next = l2;
+            p = l2;
+            l2 = l2.next;
+        }
+        return dummyHead.next;
+    }
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode curA = headA;
+        ListNode curB = headB;
+
+        while (curA != curB) {
+            curA = curA != null ? curA.next : headB;
+            curB = curB != null ? curB.next : headA;
+        }
+        return curA;
+    }
 }
