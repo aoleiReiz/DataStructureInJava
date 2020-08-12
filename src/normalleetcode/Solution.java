@@ -2,9 +2,7 @@ package normalleetcode;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Solution {
 
@@ -117,6 +115,24 @@ public class Solution {
         }
     }
 
+    public Node helper(Node node, Map<Node,Node> visited) {
+        if (null == node)
+            return node;
+        if (visited.containsKey(node))
+            return visited.get(node);
+        Node ret = new Node();
+        ret.val = node.val;
+        ret.neighbors = new ArrayList<>();
+        visited.put(node,ret);
+        for (Node n : node.neighbors){
+            ret.neighbors.add(helper(n,visited));
+        }
+        return ret;
+    }
 
+    public Node cloneGraph(Node node) {
+        Map<Node,Node>map = new HashMap<>();
+        return helper(node,map);
+    }
 
 }

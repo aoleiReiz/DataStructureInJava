@@ -141,4 +141,55 @@ public class Solution {
     }
 
 
+
+    public boolean findNumberIn2DArray(int[][] matrix, int target) {
+        if (matrix.length == 0)
+            return false;
+        if (matrix[0].length == 0)
+            return false;
+        //定位行标
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int x = m - 1;
+        int y = 0;
+        while (x >= 0  && y < n ){
+            if (matrix[x][y] < target){
+                y ++;
+            }else if (matrix[x][y] > target){
+                x --;
+            }else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String replaceSpace(String s) {
+        if (null == s){
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' '){
+                sb.append("%20");
+            }else{
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    public int[] printNumbers(int n) {
+        if (n == 0){
+            return new int[0];
+        }
+        int limit = (int)Math.pow(10, n);
+        int []ret = new int[limit - 1];
+        for(int i = 1; i < limit; i++){
+            ret[i-1] = i;
+        }
+        return ret;
+    }
+
 }
