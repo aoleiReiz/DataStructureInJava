@@ -55,14 +55,10 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        char [][]board = {{'X', 'X', 'X', 'X'},{'X', 'O', 'O', 'X'},{'X', 'X', 'O', 'X'},{'X', 'O', 'X', 'X'}};
-        s.solve(board);
-        for (int i = 0; i < board.length; i++) {
-            for (char c : board[i]){
-                System.out.print(c + " ");
-            }
-            System.out.println();
-        }
+        int [][]nums = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
+        int []ret = s.spiralOrder(nums);
+        for (int i : ret)
+            System.out.println(i);
 
     }
 
@@ -133,6 +129,92 @@ public class Solution {
     public Node cloneGraph(Node node) {
         Map<Node,Node>map = new HashMap<>();
         return helper(node,map);
+    }
+
+    public int[] exchange(int[] nums) {
+        if (null == nums || nums.length <= 1){
+            return nums;
+        }
+        int []ret = new int[nums.length];
+        int i = 0, j = nums.length - 1;
+        for (int k = 0; k < nums.length; k++) {
+            if (nums[k] % 2 == 1){
+                ret[i++] = nums[k];
+            }else {
+                ret[j--] = nums[k];
+            }
+        }
+        return ret;
+    }
+
+    public int[] spiralOrder(int[][] matrix) {
+        if (matrix.length == 0|| matrix[0].length == 0){
+            return new int[0];
+        }
+        int r = matrix.length;
+        int c = matrix[0].length;
+        int []ret = new int[r * c];
+        int k = 0;
+
+        int left = 0, right = c - 1, top = 0, bottom = r - 1;
+        while (true){
+            // 从左到右
+            for (int i = left; i <= right ; i++) {
+                ret[k++] = matrix[top][i];
+            }
+            if (++top > bottom)
+                break;
+            //从上到下
+            for (int i = top; i <= bottom ; i++) {
+                ret[k++] = matrix[i][right];
+            }
+            if (--right < left)
+                break;
+            //从右到左
+            for (int i = right; i >= left ; i--) {
+                ret[k++] = matrix[bottom][i];
+            }
+            if (--bottom < top)
+                break;
+            //从下到上
+            for (int i = bottom; i >= top ; i--) {
+                ret[k++] = matrix[i][left];
+            }
+            if (++left > right)
+                break;
+        }
+        return ret;
+    }
+
+    public int majorityElement(int[] nums) {
+       int count = 0;
+       int cur = 0;
+       for (int i : nums){
+           if (count == 0){
+               cur = i;
+           }
+           if (i == cur){
+               count ++;
+           }else{
+               count --;
+           }
+       }
+       return cur;
+    }
+
+    public int[] twoSum2(int[] nums, int target) {
+        int start = 0, end = nums.length -1;
+        while (start < end){
+            int sum = nums[start] + nums[end];
+            if (sum < target){
+                start ++;
+            }else if (sum > target){
+                end --;
+            }else{
+                return new int[]{nums[start],nums[end]};
+            }
+        }
+        return new int[0];
     }
 
 }
