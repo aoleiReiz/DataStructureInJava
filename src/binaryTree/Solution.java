@@ -61,4 +61,22 @@ public class Solution {
         System.out.println(s.hasPathSum(node1, 1));
     }
 
+
+    public int minDepth(TreeNode root) {
+        if (null == root){
+            return 0;
+        }
+        if (root.right == null && root.left == null){
+            return 1;
+        }
+        int min_depth = Integer.MAX_VALUE;
+        if (root.left != null){
+            min_depth = Math.min(minDepth(root.left),min_depth);
+        }
+        if (root.right != null){
+            min_depth = Math.min(minDepth(root.right),min_depth);
+        }
+        return min_depth;
+    }
+
 }
