@@ -233,4 +233,58 @@ public class Soltuiton {
         }
         return count;
     }
+
+
+    public String reverseWords(String s) {
+        StringBuilder sb = new StringBuilder();
+
+        int j = s.length()-1;
+        while (j >= 0) {
+            while (j >= 0 && s.charAt(j) == ' ')
+                j--;
+            if (j < 0)
+                break;
+            int i = j-1;
+            while (i>= 0 && s.charAt(i) != ' ')
+                i--;
+            sb.append(s, i+1, j+1);
+            sb.append(" ");
+            j = i-1;
+        }
+        return sb.length()> 0 ? sb.substring(0, sb.length() - 1): "";
+    }
+
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n) + s.substring(0,n);
+    }
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val > p.val && root.val > q.val){
+            return lowestCommonAncestor(root.left,p, q);
+        }
+        else if (root.val < p.val && root.val < q.val){
+            return lowestCommonAncestor(root.right, p, q);
+        }else{
+            return root;
+        }
+    }
+
+    public TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q){
+            return root;
+        }
+        TreeNode left = lowestCommonAncestor2(root.left, p, q);
+        TreeNode right = lowestCommonAncestor2(root.right, p, q);
+        if (right == null &&left == null){
+            return null;
+        }else if (left == null && right != null){
+            return right;
+        }else if (left != null && right == null){
+            return left;
+        }else{
+            return root;
+        }
+
+    }
+
 }
