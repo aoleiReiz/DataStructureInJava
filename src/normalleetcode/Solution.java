@@ -228,5 +228,37 @@ public class Solution {
         return m << shift;
     }
 
+    public boolean repeatedSubstringPattern(String s) {
+        if(s.length() % 2 == 1){
+            return false;
+        }
+        int i = 0;
+        for (int j = i+1; j < s.length(); j++) {
+            if (s.charAt(j) == s.charAt(i)){
+                int k = j + 1;
+                while (true){
+                    while (k < s.length() && i + 1 < j && s.charAt(i+1)==s.charAt(k)) {
+                        i++;
+                        k++;
+                    }
+                    if (k == s.length()&& i== j-1){
+                        return true;
+                    }else{
+                        if (i + 1 == j){
+                            i = 0;
+                            if (s.charAt(i) == s.charAt(k)){
+                                k ++;
+                            }else {
+                                break;
+                            }
+                        }else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 }
