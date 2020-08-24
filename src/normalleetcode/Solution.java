@@ -229,9 +229,6 @@ public class Solution {
     }
 
     public boolean repeatedSubstringPattern(String s) {
-        if(s.length() % 2 == 1){
-            return false;
-        }
         int i = 0;
         for (int j = i+1; j < s.length(); j++) {
             if (s.charAt(j) == s.charAt(i)){
@@ -252,6 +249,7 @@ public class Solution {
                                 break;
                             }
                         }else {
+                            i = 0;
                             break;
                         }
                     }
