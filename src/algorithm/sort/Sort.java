@@ -73,6 +73,16 @@ public class Sort {
         _mergeSort(a, 0, a.length - 1);
     }
 
+    public void mergeSortBU(Comparable []a){
+        int N = a.length;
+
+        for (int sz = 1; sz < N ; sz += sz) {
+            for (int lo = 0; lo < N - sz; lo += sz + sz) {
+                _merge(a, lo,lo + sz - 1, Math.min(lo + sz + sz - 1, N -1));
+            }
+        }
+    }
+
     private void _mergeSort(Comparable []a, int l, int r){
         if (l >= r){
             return;
@@ -80,7 +90,8 @@ public class Sort {
         int mid = l + (r - l)/2;
         _mergeSort(a,l, mid);
         _mergeSort(a, mid + 1, r);
-        _merge(a, l, mid, r);
+        if(comp(a[mid],a[mid+1]) > 0)
+            _merge(a, l, mid, r);
     }
     private void _merge(Comparable []a, int l, int mid, int r){
         Comparable []aux = new Comparable[r - l + 1];

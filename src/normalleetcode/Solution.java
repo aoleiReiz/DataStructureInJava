@@ -259,4 +259,31 @@ public class Solution {
         return false;
     }
 
+
+    private void findSubsequencesHelper(int[] nums,List<Integer> cur, int index, List<List<Integer>> res){
+        if (index == nums.length){
+            if (cur.size() > 1){
+                res.add(new ArrayList<>(cur));
+            }
+            return;
+        }
+
+        if (cur.isEmpty() || cur.get(cur.size()-1) <= nums[index]){
+            cur.add(nums[index]);
+            findSubsequencesHelper(nums,cur, index + 1, res);
+            cur.remove(cur.size()-1);
+        }
+        if (cur.size() >= 1 && cur.get(cur.size()-1) != nums[index]){
+            findSubsequencesHelper(nums,cur, index + 1, res);
+        }
+
+    }
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>>res = new ArrayList<>();
+        for (int i = 0; i < nums.length - 1; i++) {
+            findSubsequencesHelper(nums, new ArrayList<>(), i, res);
+        }
+        return res;
+    }
+
 }

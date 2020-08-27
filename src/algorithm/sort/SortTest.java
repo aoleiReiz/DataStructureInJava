@@ -13,9 +13,11 @@ public class SortTest {
         Integer []arr2 = new Integer[arr.length];
         Integer []arr3 = new Integer[arr.length];
         Integer []arr4 = new Integer[arr.length];
+        Integer []arr6 = new Integer[arr.length];
         arr2 = Arrays.copyOf(arr,arr2.length);
         arr3 = Arrays.copyOf(arr, arr3.length);
         arr4 = Arrays.copyOf(arr, arr4.length);
+        arr6 = Arrays.copyOf(arr, arr6.length);
         Integer []arr5 = Arrays.copyOf(arr, arr.length);
         System.out.println("Random arr");
         sortHelper.testSort("selectionSort", arr);
@@ -23,6 +25,7 @@ public class SortTest {
         sortHelper.testSort("mergeSort", arr3);
         sortHelper.testSort("insertionSortImprove", arr4);
         sortHelper.testSort("bubbleSort", arr5);
+        sortHelper.testSort("mergeSortBU",arr6);
 
         System.out.println("Nearly Sorted arr");
         Integer []nearlySortedArr = sortHelper.generateNearlySortedNumbers(50000, 300);
